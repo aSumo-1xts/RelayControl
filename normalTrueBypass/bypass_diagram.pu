@@ -1,0 +1,43 @@
+@startuml normalTrueBypass
+
+!theme vibrant
+skinparam backgroundColor   white
+skinparam shadowing         false
+skinparam DefaultFontName   Helvetica
+
+title diagram of //bypass()//
+
+start
+
+if (FootSwitch) then (is being pressed)
+    :Reset "released" counter to 0
+    and
+    Increment "pressed" counter;
+
+    if ("pressed" counter) then (1)
+        :Execute "turn";
+    else (2)
+        :Set "pressed"
+        counter to 2;
+    endif
+
+else (is being released)
+    :Reset "pressed" counter to 0
+    and
+    Increment "released" counter;
+
+    if ("released" counter) then (1)
+        if (ModeSwitch) then (Momentary)
+            :Execute "turn";
+        else (Alternate)
+    endif
+    else (2)
+        :Set "released"
+        counter to 2;
+    endif
+
+endif
+
+stop
+
+@enduml
