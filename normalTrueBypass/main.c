@@ -3,7 +3,7 @@
  * @author      aSumo
  * @version     2.0
  * @date        2024-11-13
- * @copyright   (c) 2024 1x telescope
+ * @copyright   (c) 2024 aSumo
  * @brief       A program for True-Bypass with PIC micro controller. 
  * @n           We call the module "Module01".
  * @details     verified: PIC12F675
