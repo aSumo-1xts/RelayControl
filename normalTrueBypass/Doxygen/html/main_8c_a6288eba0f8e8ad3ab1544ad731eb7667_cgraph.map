@@ -1,9 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="Node000001" title="サボり上司" alt="" coords="5,31,55,57"/>
-<area shape="rect" id="Node000002" href="$main_8c.html#ad3eb2625dbfdb1731b9b72ac8e12337d" title="バイパスの挙動を定義する関数" alt="" coords="105,5,168,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,36,89,27,91,32,56,41"/>
-<area shape="rect" id="Node000004" href="$main_8c.html#a9efe22aaead3a5e936b5df459de02eba" title="ピンの初期化を行う関数" alt="" coords="103,56,171,83"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="56,47,88,55,87,60,54,52"/>
-<area shape="rect" id="Node000003" href="$main_8c.html#a63faf51a9750afd5d884217e485982e3" title="実際にペダルをON/OFFする関数" alt="" coords="219,5,262,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="169,16,203,16,203,21,169,21"/>
-</map>

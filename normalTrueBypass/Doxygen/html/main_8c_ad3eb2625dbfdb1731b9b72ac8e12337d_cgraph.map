@@ -1,5 +1,0 @@
-<map id="bypass" name="bypass">
-<area shape="rect" id="Node000001" title="バイパスの挙動を定義する関数" alt="" coords="5,5,69,32"/>
-<area shape="rect" id="Node000002" href="$main_8c.html#a63faf51a9750afd5d884217e485982e3" title="実際にペダルをON/OFFする関数" alt="" coords="117,5,160,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,16,101,16,101,21,69,21"/>
-</map>
