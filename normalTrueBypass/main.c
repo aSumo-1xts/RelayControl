@@ -45,10 +45,10 @@ void initialize(void) {
     CMCON       = 0x07;         // コンパレータ     不使用
     ADCON0      = 0;            // AD/DAコンバータ  不使用
     OPTION_REG  = 0b00000010;   // プルアップ機能   使用
-    WPU         = 0b00010000;   // GP4のみプルアップ
 
     switch(moduleNum) {
         case 1:
+            WPU = 0b00010000;   // GP4のみプルアップ
             #define Relay_Set       GP0 //!< Relay_Setピン
             #define Relay_Reset     GP1 //!< Relay_Resetピン
             #define PhotoCoupler    GP2 //!< PhotoCouplerピン
@@ -70,6 +70,7 @@ void initialize(void) {
             break;
 
         case 2:
+            WPU = 0b00010000;   // GP4のみプルアップ
             #define Free            GP0 //!< Relayピン
             #define PhotoCoupler    GP1 //!< PhotoCouplerピン
             #define Relay           GP2 //!< Relayピン
