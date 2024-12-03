@@ -26,12 +26,12 @@
  * 1: Latch     M01_forLatch.pdf
  * 2: UnLatch   M01_forUnLatch.pdf
  */
-#define moduleNum 1
+#define moduleNum   1
+
+// 適宜調整の必要あり
 #define wait01 5    //!< PhotoCouplerの立ち上がりを待つ時間 [ms]
 #define wait02 5    //!< RelayとLEDの動作を待つ時間 [ms]
 #define wait03 10   //!< チャタリングが収まるのを待つ時間 [ms]
-
-// wait01, wait02, wait03は適宜調整の必要あり
 
 
 
@@ -49,6 +49,12 @@ void initialize(void) {
 
     switch(moduleNum) {
         case 1:
+            #define Relay_Set       GP0 //!< Relay_Setピン
+            #define Relay_Reset     GP1 //!< Relay_Resetピン
+            #define PhotoCoupler    GP2 //!< PhotoCouplerピン
+            #define FootSwitch      GP3 //!< FootSwitchピン
+            #define ModeSwitch      GP4 //!< ModeSwitchピン
+            #define LED             GP5 //!< LEDピン
             TRISIO0 = 0;    // Relay_Set        出力
             TRISIO1 = 0;    // Relay_Reset      出力
             TRISIO2 = 0;    // PhotoCoupler     出力
@@ -58,12 +64,18 @@ void initialize(void) {
             GPIO    = 0;    // 全てのピンをLOWに設定
 
             // 念のためペダルを"OFF"にしておく
-            GP1 = true;         // Relay_Set      ON
-            __delay_ms(wait02); // 待つ
-            GP1 = false;        // Relay_Set      OFF
+            Relay_Reset = true;     // Relay_Set      ON
+            __delay_ms(wait02);     // 待つ
+            Relay_Reset = false;    // Relay_Set      OFF
             break;
 
         case 2:
+            #define Free            GP0 //!< Relayピン
+            #define PhotoCoupler    GP1 //!< PhotoCouplerピン
+            #define Relay           GP2 //!< Relayピン
+            #define FootSwitch      GP3 //!< FootSwitchピン
+            #define ModeSwitch      GP4 //!< ModeSwitchピン
+            #define LED             GP5 //!< LEDピン
             TRISIO0 = 0;    // Free             未割当
             TRISIO1 = 0;    // PhotoCoupler     出力
             TRISIO2 = 0;    // Relay            出力
@@ -85,40 +97,40 @@ void initialize(void) {
  * @param State     the OLD state before this function executed
  * @return          the NEW state after this function executed
  * @brief           実際にペダルをON/OFFする関数
- * @details         Relay, LED and Photocoupler are controled.
+ * @details         Relay, LED and PhotoCoupler are controled.
  */
 bool turn(bool State) {
     switch(moduleNum) {
         case 1:
-            GP2 = true;         // PhotoCoupler ON
-            __delay_ms(wait01); // PhotoCouplerの立ち上がりを待つ
-            if (State) {        // "ON" → "OFF"
-                GP1 = true;     // Relay_Reset  ON
-                GP5 = false;    // LED          OFF
-            } else {            // "OFF" → "ON"
-                GP0 = true;     // Relay_Set    ON
-                GP5 = true;     // LED          ON
+            PhotoCoupler = true;    // PhotoCoupler ON
+            __delay_ms(wait01);     // PhotoCouplerの立ち上がりを待つ
+            if (State) {            // "ON" → "OFF"
+                Relay_Reset = true; // Relay_Reset  ON
+                LED = false;        // LED          OFF
+            } else {                // "OFF" → "ON"
+                Relay_Set = true;   // Relay_Set    ON
+                LED = true;         // LED          ON
             }
-            __delay_ms(wait02); // RelayとLEDの動作を待つ
-            GP0 = false;        // いずれにせよ着席
-            GP1 = false;        // いずれにせよ着席
-            GP2 = false;        // PhotoCoupler OFF
+            __delay_ms(wait02);     // RelayとLEDの動作を待つ
+            Relay_Set = false;      // いずれにせよ着席
+            Relay_Reset = false;    // いずれにせよ着席
+            PhotoCoupler = false;   // PhotoCoupler OFF
             break;
 
         case 2:
-            GP1 = true;         // PhotoCoupler ON
-            __delay_ms(wait01); // PhotoCouplerの立ち上がりを待つ
-            GP2 = !State;       // Relay        turn
-            GP5 = !State;       // LED          turn
-            __delay_ms(wait02); // RelayとLEDの動作を待つ
-            GP2 = false;        // PhotoCoupler OFF
+            PhotoCoupler = true;    // PhotoCoupler ON
+            __delay_ms(wait01);     // PhotoCouplerの立ち上がりを待つ
+            Relay = !State;         // Relay        turn
+            LED = !State;           // LED          turn
+            __delay_ms(wait02);     // RelayとLEDの動作を待つ
+            PhotoCoupler = false;   // PhotoCoupler OFF
             break;
 
         default:
             break;
     }
 
-    State = !State;             // 状態を更新
+    State = !State; // 状態を更新
     return State;
 }
 
@@ -137,12 +149,13 @@ void bypass(void) {
     // Mugen Loop
     while(true) {
         // Was pressed or released?
-        if(GP3) {                           // released (not pressed)
+        if(FootSwitch) {                    // released (not pressed)
             __delay_ms(wait03);             // wait for chattering...
-            if(GP3) {                       // surely released
+            if(FootSwitch) {                // surely released
                 pressed = 0;                // reset "pressed"
                 released++;                 // count up "released"
-                if(released==1 && !GP4) {   // Is this your first time and in the Momentary mode?
+                // Is this your first time and in the Momentary mode?
+                if(released==1 && !ModeSwitch) {
                     state = turn(state);    // Yes: Do "turn"!
                 } else {                    // No:
                     released = 2;           // set "released" 2 (MAX)
@@ -150,7 +163,7 @@ void bypass(void) {
             }
         } else {                            // pressed
             __delay_ms(wait03);             // wait for chattering...
-            if(!GP3) {                      // surely pressed
+            if(!FootSwitch) {               // surely pressed
                 released = 0;               // reset "released"
                 pressed++;                  // count up "pressed"
                 if(pressed == 1) {          // Is this your first time?
