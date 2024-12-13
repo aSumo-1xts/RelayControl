@@ -52,14 +52,14 @@ void initialize(void) {
             #define Relay_Set       GP0 //!< Relay_Setピン
             #define Relay_Reset     GP1 //!< Relay_Resetピン
             #define PhotoCoupler    GP2 //!< PhotoCouplerピン
-            #define FootSwitch      GP3 //!< FootSwitchピン
-            #define ModeSwitch      GP4 //!< ModeSwitchピン
+            #define ModeSwitch      GP3 //!< ModeSwitchピン
+            #define FootSwitch      GP4 //!< FootSwitchピン
             #define LED             GP5 //!< LEDピン
             TRISIO0 = 0;    // Relay_Set        出力
             TRISIO1 = 0;    // Relay_Reset      出力
             TRISIO2 = 0;    // PhotoCoupler     出力
-            TRISIO3 = 1;    // FootSwitch       入力
-            TRISIO4 = 1;    // ModeSwitch       入力（要プルアップ）
+            TRISIO3 = 1;    // ModeSwitch       入力（要プルアップ）
+            TRISIO4 = 1;    // FootSwitch       入力
             TRISIO5 = 0;    // LED              出力
             GPIO    = 0;    // 全てのピンをLOWに設定
 
@@ -74,14 +74,14 @@ void initialize(void) {
             #define Free            GP0 //!< Relayピン
             #define PhotoCoupler    GP1 //!< PhotoCouplerピン
             #define Relay           GP2 //!< Relayピン
-            #define FootSwitch      GP3 //!< FootSwitchピン
-            #define ModeSwitch      GP4 //!< ModeSwitchピン
+            #define ModeSwitch      GP3 //!< ModeSwitchピン
+            #define FootSwitch      GP4 //!< FootSwitchピン
             #define LED             GP5 //!< LEDピン
             TRISIO0 = 0;    // Free             未割当
             TRISIO1 = 0;    // PhotoCoupler     出力
             TRISIO2 = 0;    // Relay            出力
-            TRISIO3 = 1;    // FootSwitch       入力
-            TRISIO4 = 1;    // ModeSwitch       入力（要プルアップ）
+            TRISIO3 = 1;    // ModeSwitch       入力（要プルアップ）
+            TRISIO4 = 1;    // FootSwitch       入力
             TRISIO5 = 0;    // LED              出力
             GPIO    = 0;    // 全てのピンをLOWに設定
             break;
